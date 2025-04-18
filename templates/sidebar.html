@@ -1,0 +1,20 @@
+<aside class="d-flex flex-column vh-100 p-3 bg-light" style="width: 280px;" role="complementary" aria-label="Sidebar with team members and navigation">
+  <h5 class="mb-3">Team Members</h5>
+  <input type="search" id="teamSearch" class="form-control mb-3" placeholder="Search team..." aria-label="Search team members" />
+  <ul id="teamList" class="list-unstyled overflow-auto flex-grow-1" style="max-height: 60vh;" role="list">
+    <!-- Team members will be dynamically rendered here -->
+  </ul>
+  <nav class="mt-auto" aria-label="Sidebar navigation">
+    <ul class="nav nav-pills flex-column">
+      <li class="nav-item">
+        <a href="#" class="nav-link" hx-get="dashboard.html" hx-target="#main-content" hx-swap="innerHTML" tabindex="0">Dashboard</a>
+      </li>
+      <li class="nav-item">
+        <a href="#" class="nav-link" hx-get="breakrooms.html" hx-target="#main-content" hx-swap="innerHTML" tabindex="0">Break Rooms</a>
+      </li>
+      <li class="nav-item">
+        <a href="#" class="nav-link" hx-get="events.html" hx-target="#main-content" hx-swap="innerHTML" tabindex="0">Events</a>
+      </li>
+    </ul>
+  </nav>
+</aside>
