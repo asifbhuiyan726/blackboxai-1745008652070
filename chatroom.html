@@ -1,0 +1,21 @@
+<section aria-label="Chat Room" class="container-fluid d-flex flex-column h-100">
+  <header class="d-flex align-items-center justify-content-between mb-3">
+    <h2 id="chatRoomTitle">Chat Room</h2>
+    <button class="btn btn-outline-secondary btn-sm" id="leaveChatBtn" aria-label="Leave chat room">
+      <i class="fas fa-sign-out-alt"></i> Leave
+    </button>
+  </header>
+
+  <div id="chatMessages" class="flex-grow-1 overflow-auto border rounded p-3 mb-3" tabindex="0" aria-live="polite" aria-atomic="false" style="background-color: var(--bs-light);">
+    <!-- Chat messages dynamically rendered here -->
+  </div>
+
+  <div id="typingIndicator" class="mb-2 text-muted" aria-live="polite" aria-atomic="true" style="min-height: 1.5em;"></div>
+
+  <form id="chatForm" class="d-flex" aria-label="Send message form">
+    <input type="text" id="chatInput" class="form-control me-2" placeholder="Type a message..." aria-label="Message input" autocomplete="off" required />
+    <button type="submit" class="btn btn-primary" aria-label="Send message">
+      <i class="fas fa-paper-plane"></i>
+    </button>
+  </form>
+</section>
