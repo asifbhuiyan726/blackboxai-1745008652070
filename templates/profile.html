@@ -1,0 +1,36 @@
+<div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="profileModalLabel" aria-hidden="true" role="dialog">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <header class="modal-header">
+        <h5 class="modal-title" id="profileModalLabel">User Profile</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </header>
+      <section class="modal-body">
+        <form id="profileForm" aria-label="User profile form">
+          <div class="mb-3 text-center">
+            <img id="profileAvatar" src="{{ user_profile.avatar }}" alt="User avatar" class="rounded-circle mb-2" width="80" height="80" />
+            <div>
+              <button type="button" class="btn btn-sm btn-outline-primary" id="changeAvatarBtn">Change Avatar</button>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="profileName" class="form-label">Name</label>
+            <input type="text" class="form-control" id="profileName" aria-describedby="profileNameHelp" value="{{ user_profile.name }}" required />
+            <div id="profileNameHelp" class="form-text">Your display name.</div>
+          </div>
+          <div class="mb-3">
+            <label for="profileEmail" class="form-label">Email address</label>
+            <input type="email" class="form-control" id="profileEmail" aria-describedby="profileEmailHelp" value="{{ user_profile.email }}" required />
+            <div id="profileEmailHelp" class="form-text">We'll never share your email with anyone else.</div>
+          </div>
+          <div class="mb-3">
+            <label for="profileBio" class="form-label">Bio</label>
+            <textarea class="form-control" id="profileBio" rows="3" aria-describedby="profileBioHelp">{{ user_profile.bio }}</textarea>
+            <div id="profileBioHelp" class="form-text">Tell us a little about yourself.</div>
+          </div>
+          <button type="submit" class="btn btn-primary">Save Changes</button>
+        </form>
+      </section>
+    </div>
+  </div>
+</div>
