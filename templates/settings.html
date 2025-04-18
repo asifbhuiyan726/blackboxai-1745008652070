@@ -1,4 +1,9 @@
-yes please<div class="modal fade" id="settingsModal" tabindex="-1" aria-labelledby="settingsModalLabel" aria-hidden="true" role="dialog">
+{% extends "base.html" %}
+
+{% block title %}Settings - BreakSpace{% endblock %}
+
+{% block content %}
+<div class="modal fade" id="settingsModal" tabindex="-1" aria-labelledby="settingsModalLabel" aria-hidden="true" role="dialog">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <header class="modal-header">
@@ -54,3 +59,4 @@ yes please<div class="modal fade" id="settingsModal" tabindex="-1" aria-labelled
     </div>
   </div>
 </div>
+{% endblock %}
