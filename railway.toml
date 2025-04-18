@@ -1,0 +1,6 @@
+[build]
+  install = "pip install -r requirements-postgresql.txt"
+  start = "gunicorn breakspace_backend.wsgi --log-file -"
+
+[deploy]
+  release = "python manage.py migrate"
