@@ -1,0 +1,30 @@
+<section aria-label="Break Rooms" class="container-fluid">
+  <h2 class="mb-4">Break Rooms</h2>
+
+  <div class="mb-3 d-flex flex-wrap align-items-center gap-2">
+    <input type="search" id="breakRoomSearch" class="form-control flex-grow-1" placeholder="Search break rooms..." aria-label="Search break rooms" />
+    <select id="breakRoomCategory" class="form-select w-auto" aria-label="Filter break rooms by category">
+      <option value="">All Categories</option>
+      <option value="Social">Social</option>
+      <option value="Interest">Interest</option>
+      <option value="Team">Team</option>
+      <option value="Collaboration">Collaboration</option>
+      <option value="Wellness">Wellness</option>
+    </select>
+  </div>
+
+  <div id="breakRoomCards" class="row row-cols-1 row-cols-md-3 g-3">
+    {% for room in break_rooms %}
+    <div class="col">
+      <div class="card h-100" role="region" aria-label="{{ room.name }} break room">
+        <img src="{{ room.image }}" class="card-img-top" alt="{{ room.name }} image" />
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title">{{ room.name }}</h5>
+          <p class="card-text flex-grow-1">{{ room.description }}</p>
+          <a href="{% url 'chatroom' %}?room={{ room.name|urlencode }}" class="btn btn-primary mt-auto" aria-label="Enter {{ room.name }} chat room">Enter Room</a>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
