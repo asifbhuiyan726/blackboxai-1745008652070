@@ -1,0 +1,19 @@
+<section aria-label="Break Rooms" class="container-fluid">
+  <h2 class="mb-4">Break Rooms</h2>
+
+  <div class="mb-3 d-flex flex-wrap align-items-center gap-2">
+    <input type="search" id="breakRoomSearch" class="form-control flex-grow-1" placeholder="Search break rooms..." aria-label="Search break rooms" />
+    <select id="breakRoomCategory" class="form-select w-auto" aria-label="Filter break rooms by category">
+      <option value="">All Categories</option>
+      <option value="Social">Social</option>
+      <option value="Interest">Interest</option>
+      <option value="Team">Team</option>
+      <option value="Collaboration">Collaboration</option>
+      <option value="Wellness">Wellness</option>
+    </select>
+  </div>
+
+  <div id="breakRoomCards" class="row row-cols-1 row-cols-md-3 g-3">
+    <!-- Break room cards dynamically rendered here -->
+  </div>
+</section>
