@@ -1,3 +1,8 @@
+{% extends "base.html" %}
+
+{% block title %}Chat Room - BreakSpace{% endblock %}
+
+{% block content %}
 <section aria-label="Chat Room" class="container-fluid d-flex flex-column h-100">
   <header class="d-flex align-items-center justify-content-between mb-3">
     <h2 id="chatRoomTitle">{{ room_name }}</h2>
@@ -29,3 +34,4 @@
     </button>
   </form>
 </section>
+{% endblock %}
