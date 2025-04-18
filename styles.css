@@ -1,0 +1,105 @@
+/* Custom styles for BreakSpace */
+
+/* Dark mode styles */
+:root[data-theme="dark"] {
+  --bs-body-bg: #121212;
+  --bs-body-color: #e0e0e0;
+  --bs-card-bg: #1e1e1e;
+  --bs-border-color: #333;
+  --bs-link-color: #66aaff;
+  --bs-link-hover-color: #99cfff;
+}
+
+body {
+  background-color: var(--bs-body-bg);
+  color: var(--bs-body-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.card {
+  background-color: var(--bs-card-bg);
+  border-color: var(--bs-border-color);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Navbar and Sidebar */
+.navbar, .bg-light {
+  background-color: var(--bs-card-bg) !important;
+  border-color: var(--bs-border-color) !important;
+}
+
+.nav-link {
+  color: var(--bs-body-color) !important;
+  transition: color 0.3s ease;
+}
+
+.nav-link:hover, .nav-link:focus {
+  color: var(--bs-link-hover-color) !important;
+  text-decoration: underline;
+}
+
+/* Focus outlines for accessibility */
+:focus {
+  outline: 3px solid var(--bs-link-color);
+  outline-offset: 2px;
+}
+
+/* Smooth animations */
+.fade {
+  transition: opacity 0.3s ease;
+}
+
+/* Toast notifications */
+.toast {
+  opacity: 0.95;
+}
+
+/* Scrollbar styling for sidebar and chat messages */
+#teamList, #chatMessages, #recentActivityList, #upcomingEvents {
+  scrollbar-width: thin;
+  scrollbar-color: var(--bs-link-color) transparent;
+}
+
+#teamList::-webkit-scrollbar, #chatMessages::-webkit-scrollbar, #recentActivityList::-webkit-scrollbar, #upcomingEvents::-webkit-scrollbar {
+  width: 8px;
+}
+
+#teamList::-webkit-scrollbar-thumb, #chatMessages::-webkit-scrollbar-thumb, #recentActivityList::-webkit-scrollbar-thumb, #upcomingEvents::-webkit-scrollbar-thumb {
+  background-color: var(--bs-link-color);
+  border-radius: 4px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 767.98px) {
+  #sidebar {
+    width: 100% !important;
+    height: auto !important;
+  }
+}
+
+/* Accessibility: High contrast mode */
+[data-theme="high-contrast"] {
+  background-color: black !important;
+  color: yellow !important;
+}
+
+[data-theme="high-contrast"] a {
+  color: cyan !important;
+  text-decoration: underline;
+}
+
+/* Animations for chat messages */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.chat-message {
+  animation: fadeInUp 0.3s ease forwards;
+}
