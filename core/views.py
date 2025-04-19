@@ -145,3 +145,12 @@ def settings(request):
         "user_settings": user_settings,
     }
     return render(request, "settings.html", context)
+
+def navbar(request):
+    return render(request, "navbar.html")
+
+def sidebar(request):
+    return render(request, "sidebar.html")
+
+def notifications(request):
+    return render(request, "notifications.html")
