@@ -1,0 +1,11 @@
+{% for chat in chat_messages %}
+<div class="mb-2 d-flex align-items-start">
+  <img src="{{ chat.user_avatar }}" alt="{{ chat.user_name }} avatar" class="rounded-circle me-2" width="40" height="40" />
+  <div>
+    <strong>{{ chat.user_name }}</strong> <small class="text-muted">{{ chat.timestamp }}</small>
+    <p class="mb-0">{{ chat.message }}</p>
+  </div>
+</div>
+{% empty %}
+<p>No messages yet.</p>
+{% endfor %}
