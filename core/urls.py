@@ -9,4 +9,7 @@ urlpatterns = [
     path('events/', views.events, name='events'),
     path('profile/', views.profile, name='profile'),
     path('settings/', views.settings, name='settings'),
+    path('navbar/', views.navbar, name='navbar'),
+    path('sidebar/', views.sidebar, name='sidebar'),
+    path('notifications/', views.notifications, name='notifications'),
 ]
