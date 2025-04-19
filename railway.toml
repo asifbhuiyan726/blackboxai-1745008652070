@@ -4,4 +4,4 @@
 
 [deploy]
   release = "python manage.py migrate"
-  populate_db = "python manage.py populate_d"
+  populate_db = "python manage.py populate_db"
