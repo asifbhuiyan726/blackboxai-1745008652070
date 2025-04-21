@@ -1,11 +1,19 @@
 {% for chat in chat_messages %}
-<div class="mb-2 d-flex align-items-start">
-  <img src="{{ chat.user_avatar }}" alt="{{ chat.user_name }} avatar" class="rounded-circle me-2" width="40" height="40" />
+<div class="chat-message mb-2 d-flex align-items-start" role="article" aria-label="Message from {{ chat.user.username }}">
+  <img src="{{ chat.user.avatar|default:'https://source.unsplash.com/40x40/?face' }}" 
+       alt="{{ chat.user.username }}'s avatar" 
+       class="rounded-circle me-2" 
+       width="40" 
+       height="40" 
+       loading="lazy" />
   <div>
-    <strong>{{ chat.user_name }}</strong> <small class="text-muted">{{ chat.timestamp }}</small>
-    <p class="mb-0">{{ chat.message }}</p>
+    <div class="d-flex align-items-center">
+      <strong class="me-2">{{ chat.user.username }}</strong>
+      <small class="text-muted">{{ chat.timestamp|date:"M d, Y H:i" }}</small>
+    </div>
+    <p class="mb-0 message-text">{{ chat.message }}</p>
   </div>
 </div>
 {% empty %}
-<p>No messages yet.</p>
+<p class="text-muted text-center my-3">No messages yet. Be the first to start the conversation!</p>
 {% endfor %}
