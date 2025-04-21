@@ -1,0 +1,193 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Direct Messages - BreakSpace{% endblock %}
+
+{% block content %}
+<div class="container-fluid h-100 d-flex flex-column">
+    <div class="row h-100">
+        <!-- Message Threads List -->
+        <div class="col-md-4 col-lg-3 border-end p-0 h-100">
+            <div class="d-flex flex-column h-100">
+                <!-- Header -->
+                <div class="p-3 border-bottom">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h2 class="h5 mb-0">Messages</h2>
+                        <button class="btn btn-primary btn-sm" 
+                                data-bs-toggle="modal" 
+                                data-bs-target="#newMessageModal">
+                            <i class="fas fa-pen"></i> New Message
+                        </button>
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light border-end-0">
+                            <i class="fas fa-search"></i>
+                        </span>
+                        <input type="text" 
+                               class="form-control border-start-0" 
+                               id="threadSearch" 
+                               placeholder="Search messages..."
+                               aria-label="Search messages">
+                    </div>
+                </div>
+
+                <!-- Threads List -->
+                <div class="overflow-auto flex-grow-1" id="threadsList">
+                    {% for thread in threads %}
+                        {% with other_user=thread.get_other_participant(request.user) %}
+                        <a href="{% url 'direct_message_thread' thread.id %}" 
+                           class="thread-item d-flex align-items-center p-3 border-bottom text-decoration-none {% if thread.id == active_thread.id %}active{% endif %}"
+                           hx-get="{% url 'direct_message_thread' thread.id %}"
+                           hx-target="#messageContent"
+                           hx-trigger="click"
+                           hx-push-url="true">
+                            <img src="{{ other_user.avatar|default:'/static/images/default-avatar.png' }}" 
+                                 alt="{{ other_user.username }}'s avatar"
+                                 class="rounded-circle me-3"
+                                 width="48" height="48">
+                            <div class="flex-grow-1 min-width-0">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h6 class="mb-0 text-truncate">{{ other_user.get_full_name|default:other_user.username }}</h6>
+                                    <small class="text-muted">{{ thread.updated_at|timesince }}</small>
+                                </div>
+                                {% with last_message=thread.get_messages.last %}
+                                <p class="mb-0 text-muted text-truncate">
+                                    {% if last_message.sender == request.user %}
+                                    <i class="fas fa-reply fa-flip-horizontal me-1"></i>
+                                    {% endif %}
+                                    {{ last_message.message|default:"No messages yet" }}
+                                </p>
+                                {% endwith %}
+                            </div>
+                            {% if thread.get_messages.filter(recipient=request.user, read=False).exists %}
+                            <span class="badge bg-primary rounded-pill ms-2">New</span>
+                            {% endif %}
+                        </a>
+                        {% endwith %}
+                    {% empty %}
+                        <div class="text-center text-muted p-4">
+                            <i class="fas fa-comments fa-3x mb-3"></i>
+                            <p>No messages yet</p>
+                            <button class="btn btn-primary btn-sm" 
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#newMessageModal">
+                                Start a conversation
+                            </button>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Message Content -->
+        <div class="col-md-8 col-lg-9 p-0 h-100" id="messageContent">
+            <!-- Default state when no thread is selected -->
+            <div class="h-100 d-flex flex-column justify-content-center align-items-center text-muted">
+                <i class="fas fa-comments fa-4x mb-3"></i>
+                <h3>Select a conversation</h3>
+                <p>Choose a conversation from the list or start a new one</p>
+                <button class="btn btn-primary" 
+                        data-bs-toggle="modal" 
+                        data-bs-target="#newMessageModal">
+                    Start a new conversation
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- New Message Modal -->
+<div class="modal fade" id="newMessageModal" tabindex="-1" aria-labelledby="newMessageModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="newMessageModalLabel">New Message</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="userSearch" class="form-label">To:</label>
+                    <input type="text" 
+                           class="form-control" 
+                           id="userSearch" 
+                           placeholder="Search users..."
+                           hx-get="{% url 'search_users' %}"
+                           hx-trigger="keyup changed delay:500ms"
+                           hx-target="#searchResults">
+                </div>
+                <div id="searchResults" class="list-group mb-3"></div>
+                <div class="mb-3">
+                    <label for="messageText" class="form-label">Message:</label>
+                    <textarea class="form-control" 
+                              id="messageText" 
+                              rows="3" 
+                              placeholder="Type your message..."></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="sendNewMessage" disabled>Send</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const userSearch = document.getElementById('userSearch');
+    const messageText = document.getElementById('messageText');
+    const sendButton = document.getElementById('sendNewMessage');
+    let selectedUserId = null;
+
+    // Enable/disable send button based on form state
+    function updateSendButton() {
+        sendButton.disabled = !selectedUserId || !messageText.value.trim();
+    }
+
+    userSearch.addEventListener('input', updateSendButton);
+    messageText.addEventListener('input', updateSendButton);
+
+    // Handle user selection
+    document.getElementById('searchResults').addEventListener('click', function(e) {
+        const userItem = e.target.closest('[data-user-id]');
+        if (userItem) {
+            selectedUserId = userItem.dataset.userId;
+            userSearch.value = userItem.dataset.username;
+            document.getElementById('searchResults').innerHTML = '';
+            updateSendButton();
+        }
+    });
+
+    // Handle sending new message
+    sendButton.addEventListener('click', function() {
+        if (!selectedUserId || !messageText.value.trim()) return;
+
+        const formData = new FormData();
+        formData.append('recipient_id', selectedUserId);
+        formData.append('message', messageText.value.trim());
+
+        fetch('{% url "send_direct_message" %}', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                window.location.href = `/direct-messages/${data.thread_id}/`;
+            } else {
+                throw new Error(data.error || 'Failed to send message');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Failed to send message. Please try again.');
+        });
+    });
+});
+</script>
+{% endblock %}
