@@ -7,13 +7,13 @@
   <nav class="mt-auto" aria-label="Sidebar navigation">
     <ul class="nav nav-pills flex-column">
       <li class="nav-item">
-        <a href="#" class="nav-link" hx-get="dashboard.html" hx-target="#main-content" hx-swap="innerHTML" tabindex="0">Dashboard</a>
+        <a href="{% url 'dashboard' %}" class="nav-link" tabindex="0">Dashboard</a>
       </li>
       <li class="nav-item">
-        <a href="#" class="nav-link" hx-get="breakrooms.html" hx-target="#main-content" hx-swap="innerHTML" tabindex="0">Break Rooms</a>
+        <a href="{% url 'breakrooms' %}" class="nav-link" tabindex="0">Break Rooms</a>
       </li>
       <li class="nav-item">
-        <a href="#" class="nav-link" hx-get="events.html" hx-target="#main-content" hx-swap="innerHTML" tabindex="0">Events</a>
+        <a href="{% url 'events' %}" class="nav-link" tabindex="0">Events</a>
       </li>
     </ul>
   </nav>
